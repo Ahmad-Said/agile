@@ -1,0 +1,96 @@
+let's imagine a welcome screen where only a login button is showen
+everything start with tinker after adding the first registered user as
+admin where he can register coaches user types of user with
+ a default password sent by email maybe outside of our project at first
+now let's talk about each user:
+
+-admin: can login and add coaches
+
+-Product owner: type of user who own the project 
+-Scrum Master: he is a developer like the leader in agile system he do meeting and resolve problem
+-Developer a default type of user in the project
+
+........... the above user have similar functionallity we will add later a messaging system between them maybe the form links sent in it within a post form the message box may be just simple chat or other section for forms all
+ordered by desc time of create
+a dashboard of form and in each form set of question with submit 
+
+-Coach : he is the one who wants to test the effictivity of agile method
+a coach can have teams constructed of at least of one of the above user types where only can exist more developer 
+and at last the coach sends form set of question to answer graduted from 1 to 5 or maybe variable and when filled by the teams at any times he see results and charts.
+he also can register Other Coaches which have the same job.
+
+Main mission to do:
+1- Team Management:
+	1.1- Register user with a form where he can choose types of the user
+		the default password '123' as hidden input sent at finish
+	1.2- Team Creation:
+		- will be Team name location information
+		- will be a 2 select list: 
+		// always use @if there exist such types other
+		// wise	 show a button to register an employee
+			-choose a owner
+			-choose a scrum-master
+		- A table in each like the availble free developer 
+			at each tr there is check box id as array see course
+			like id='choice[]' and if checked it will be auto added
+			and the value can be the developper id.
+
+2- like PostCreation "Form question" :
+		-note that team of product owner is not that much important because team take project if he has one we send to owner not if not 
+			only show team member
+		-in main menu there also a dashborad for all post with subject a button to add post or edit the availble post and delete them
+				-when create a post is tapped choose a subject then it redirect to its dashboard where can see add question
+		-in form dash we can see all question .. its a recursive way to see things..
+		-in question form choose question body string and choices 
+		- also in form dash will be a button "send" redirect to page as post method the id of form and specify groupe and in each group a expand 
+				the coaches will be in send 
+				
+---------------------------------------------------------
+about database tables:
+user:	 	id integer,
+-----		name string,
+			email string,
+			password string,
+			type string,
+			parentid,
+			teamid,  //  can be null or by default it is 1 and name of that team is 'No current team' location='not defined' and coachid is 1 the admin
+			
+			
+			relation ships:
+			// we are building 2 relations ships one to many reflexive between user and team
+			// so many user are in one team
+			// and coach can create and own many teams
+			public function team(){
+				return $this->belongsTo('App\Team');
+			}
+			
+			public function coachteams()
+			{
+				return $this->hasMany('App\Team');
+			}
+			
+	
+team:		id integer,
+------		name string,
+			location string,
+			coachid integer foreign key,  // this is a belong to coach one coach to many teams
+
+			
+				// in interface must consider conditions see Team Creation up
+				// actually we will not create this table
+				// this can be added to model teams and add 
+				    public function user(){
+						return $this->hasMany('App\User');
+					}
+					
+					public function ourcoach(){
+						return $this->belongsTo('App\User');
+					}
+project
+
+					
+------------------------
+desgin to do later:
+in http://agile.test/team/create do make pagination for table while conserving post values of memebers
+show speicfic error if teams not created 3 owner scrum developer  
+do for button when no more availble user redirect changing the selection box to a value using javascript and post value

@@ -1,0 +1,61 @@
+-define new table question related to a set only no need for coach  ///////done
+-new way of collecting answer : 
+		- instead of using implode and explode
+		=> use a new table relating question_user relation ship
+			with answer as pivot notice the name alphabetique
+			and change default answer to null instead of 0
+			for easy test and filtering array if needed using
+			
+			note the answer null mean the user has received 
+			the form but not answered yet
+		// add table column id optional to better look in phpmyadmin
+
+-check all relations ships and check them one by one in a simple url 
+	using a method function return the test and desired output
+
+-about analysis :
+	-button for set form return the average of question
+ 		treated as one question separating user  ////done 
+	-or when entering a page that select which members to involve 
+	the page can show 2 charts to compare ///////dome 
+	-see script for desired chart from whatsup ///////////rejected
+
+-about analysis V2: // due to long paintfull search for library php to chart 
+					// i will stick into using radar chart based that questions are at nodes and showing 2 groupes see templates
+	-2 groups selection groupe 1 and groupe 2
+	-each group desgin with jtree contain roots:
+		-teams list in each :
+				-Dev list and scrum master // we can add icon for each one as M or D 
+		-owners: as O
+	-when listing teams will list all memebers who answered the set even with the owner (add function team->owner() later if you want)
+		this will move the owner to the team if is opened 
+	-
+	
+// about desgin and navigation
+-improve the home page for coach the select send features maybe a button with 
+	check all instead of diffrent traitement for team /////// rejected keep php pure work
+	// idea add a variable name for checkbox id 
+	// make javascript to desired checkbox to where the check all
+	// have to check its child in expand menu and take 2 parameters start
+	// index and end index and the child have parameter as his father 
+	// if he get selected on click check if we do a total check on faather 
+	// or a grey square showing the he have selected but not all
+
+-add send button to set index so if set is not set  ////// whaaaat i forgot what you are talking about!
+
+
+name again in question as options not answer //////done
+
+do make all owner independent from the coach who created them they are like static for all of them ////// rejected
+
+add condition check on add a new question if is ever sent before and ask to delete users answer data from associated question or just set the set status
+to require update or pending again and set input name of update with old record so user can know which answers he last commited /////////done without notifing
+also now we can paginate questions and now on each page do store informations again of the set do later... ////////// rejected try by your self
+																											/// idea keep answer track in session see 
+																											// google for multiform php
+
+replace later profile with another edit profile  ////// rejected 
+
+later see how can jtree be open groupes automaticly something in state opened...///////done
+
+add on page my question set how much on how much it is answered  ///////////pending

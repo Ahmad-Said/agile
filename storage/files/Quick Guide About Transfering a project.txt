@@ -1,0 +1,9 @@
+copy folder to your www path location
+go to .env
+edit database informations
+
+open terminal 
+composer update --no-scripts  
+php artisan migrate
+check sequence code for any tinker code add them then...
+php arisan serve // or configure it fix apache see laravel series first video

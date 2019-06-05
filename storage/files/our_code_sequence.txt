@@ -1,0 +1,75 @@
+composer create-project laravel/laravel agile
+// now go and fix path to project see part1
+
+// cd go to project path
+php artisan make:controller PagesContoller
+
+
+// we edited table of user then
+php artisan make:auth
+
+
+// now to create first user admin:
+// note this password mesan 123312 use other register to get hash password of this number will not work
+php artisan tinker
+$toadd= new App\User()
+$toadd->name='admin'
+$toadd->email="mohamad_naji@ahmad_said.com"
+$toadd->password='$2y$10$wjlH69FjH/f9ec7q8IJqJ.zf79ZaPg9FmDFH7HSgF7GeaCMB8qc5O'  
+$toadd->type='admin'
+$toadd->parentid='1'
+$toadd->save()
+
+
+
+
+
+// to include the use of form https://laravelcollective.com/docs/master/html check inside installation
+
+// creating teams model and migrations:
+php artisan make:controller TeamController --resource   // resouces mean add basic function like store edit create delete....
+php artisan make:model Team -m   // -m mean create also the corrsponding migrations file that we will fill with parameters..
+
+// as i need a foregin key on user table already created need migration to alter table and add team_id
+php artisan make:migration add_team_id_to_users // fill it
+php artisan migrate
+
+// if a mistake done do 
+php artisan migrate:rollback
+
+// now let's add the first team that all coach and default user belong to
+php artisan tinker
+$toadd= new App\Team()
+$toadd->name='default'
+$toadd->location="not defined"
+$toadd->user_id='1'
+$toadd->save()
+
+// now the same things for controller and other model like Project and Question
+
+
+// to make many to many migration name by alphabetic order and special functiono in model see zindex
+
+
+
+all tinker code:
+php artisan tinker
+$toadd= new App\User()
+$toadd->name='admin'
+$toadd->email="mohamad.naji@ahmad.said.com"
+$toadd->password='$2y$10$wjlH69FjH/f9ec7q8IJqJ.zf79ZaPg9FmDFH7HSgF7GeaCMB8qc5O'  
+$toadd->type='admin'
+$toadd->parentid='1'
+$toadd->save()
+$toadd= new App\Team()
+$toadd->name='default'
+$toadd->location="not defined"
+$toadd->user_id='1'
+$toadd->save()
+$toadd= new App\Project()
+$toadd->title='default'
+$toadd->user_id="1"
+$toadd->team_id='1'
+$toadd->save()
+
+

@@ -1,0 +1,255 @@
+			Based on Laravel From Scratch Youtube Series :
+			----------------------------------------------
+			Thanks to Traversy Media for great Work.
+			-----------------------------------------
+					By Ahmad Said
+					--------------
+part 1:
+-------
+after set up environement
+composer
+visual code
+gitbash  //  to change default terminal to bash
+---
+we use terminal
+composer create-project laravel/laravel <name of project>
+for clear sequence code example check link in misc section "our code sequence"
+---
+instead of seeing all index files in project we do::
+check apache path at yours may be different
+C:\wamp64\bin\apache\apache2.4.35\conf\extra\httpd-vhosts.conf
+add like follow :
+<VirtualHost *:80>
+  DocumentRoot "C:\wamp64\www\<name of project>\public"
+  ServerName <url to access to project from web>
+</VirtualHost>
+and add to host files in system32/drivers/etc this line
+127.0.0.1 <url to access to project from web>
+
+... skip some details first video introduction and installation
+when we type in views as they have .blade.php
+they have something more than html they can use
+@if( can be php variable in here)
+html in here
+@else
+@endif
+and loops ...
+@foreach(..)
+...
+@endforeach
+also {{ <php variable here evaluated> }}
+{!!  some html code will be parsed not only as text !!}
+see later
+for naming stuff just as you feel about it
+ all outside the program can be in mininusul
+like in migration files or view folder and files
+and let's name controller and model like java
+----------------------------------------------------------------------
+
+part 2:
+creating a project
+go to your folder web www in wamp
+run in terminal
+composer create-project laravel/laravel <project_name>
+to open it go to localhost/<project_name>/public
+or see video for better security fix
+i willl use agile.test
+
+-----------------------------------------------------------------------
+
+part 3:
+
+see routes>> web.php
+routes are needed to route several url href where to go (pages) and optional handel it by
+ controller at specific method which direct to view with special parameter
+
+Controller:
+note optional  use FirstCapitalLetter with naming of controller
+command from directroy of project use terminal:
+php artisan make:controller <nameofcontroller>
+usally create a PagesController to be like main who handle the root / url
+type :  Route::get('/','PagesController@<method>');
+	or when parameter exist
+	Route::get('/about/{id},'PagesController@<method>($id)');
+
+---------------------------------------------------------------------------
+
+part 4:
+blade template:
+see views>> layouts >> app.blade.php (this exemple)
+instead of repeating our code like in all page we wants to have a navigation bar to go everywhere solution
+we put the default page preview in template and dynamic variable that we define in child
+ and when creating a new views we @extend('<layouts') this template see
+about.blade.php int it only we define the dynamic variable
+the most important is section content in there where it is the body
+we can also notice the use of @include(views) in template it is like putting this view from where include is called
+example we include navigation bar the separate files make code eaiser to understand ...
+now for css used in app its a compiled assests see
+\resources\sass\_variables.scss
+after that if changing you wanna do compile using this code :
+npm run dev
+i didn't try this css stuff them so be carefull
+
+---------------------------------------------------------------------------
+Part 5:
+migration and creating table database:
+first create database with empty tables >> configure .env to match db name and root password
+now for a entity of our project we need model and controller for it
+we use the follwing command:
+php artisan make controller <ControllerName>  // see down for a better optional
+php artisan make:model <ModelName> -m  // this dash m create migration files also for it see database >> migrations ...date...model..table.php
+in the migrations files we add our parameter for the entity
+and so in here the model are related to its parameter in migrations and the created model extend model
+so there is already a ton of built in function to use
+so we only add relations ships to other model and if we want overwrite some paramater names see project
+example in model add:
+		// Table Name
+		protected $table = 'posts';
+		// Primary Key
+		public $primaryKey = 'id';
+		// Timestamps
+		public $timestamps = true;
+
+		public function user(){
+			return $this->belongsTo('App\User');
+		}
+notice the relation ships works on foreign key in the table or the snake method the his name is in this case in the migration of
+post we have user_id so we add the suffix "_id" to the table name and foreign key
+see https://laravel.com/docs/5.7/eloquent-relationships
+notice that built in laravel migration user and reset_password files exist if we want to change the user files parameter either use migraton to update
+or before first creation add them and at last go to its model and add the parameter name in fillable
+if we use string in migrations files a fix is necessary in Providers >> AppServiceProvider.php >> add:
+use Illuminate\Support\Facades\Schema;
+and inside boot function add :
+Schema::defaultStringLength(191);
+
+to create those table use command line:
+php aritsan migrate
+
+to add a user  graphically prefer terminal also using:
+php artisan tinker
+// in here similar code process will be in store function controller
+$modelvar = new App\<ModelName>();
+$modelvar-><first param> = 'contentt';
+...
+$modelvar->save();
+
+now since we need some basic function controller like index show id ...
+we can use
+php artisan make:controlller <name> --resource /// add a controller with basic prototype function
+in web.php add route:
+Route::resource('<name_show_after_root_in_url>','<controller>') // add route for those created resources
+
+every time to check route type in terminal:
+ php artisan route:list
+
+
+---------------------------------------------------------------------------
+Part 6:
+configuring model nothing much to do // that i think the get url id for show maybe ...
+configuring controller function resources
+note url of main page index is precised in route that take all resources
+at main page function index get called we see that we have access for // see quering data base and send the corresponding array
+when pressing at the quesion the function show get called
+we create a new view and return it at last
+example return view('foldername.file')->with(arraysparam);
+
+now instead of using <modelname>.method(query..) like video when asking the model we use prepared statement but we have problem to paginate the showen result
+
+
+---------------------------------------------------------------------------
+
+part 7:
+create form // used when create function is called from route to return the view called create.blade.php
+useful site to master form in laravel:
+https://laravelcollective.com/docs/master/html
+now follow steps and add each lines to corresponding config
+now after adding some form action to page as post and some feild and submit button
+it's easy to validate using in the function called this->validaterequest{
+
+create good text editor it may be useful for body of area field we can use it for sending messages :
+check this link https://github.com/UniSharp/laravel-ckeditor
+note i used the jquery selector and put class for text area as ckeditor
+
+---------------------------------------------------------------------------
+part 8:
+edit entity stuff
+we create a views called edit for example usually the edit prototype function use method as put (see php artisan route:list) but in it's form there is a post so we add to the form same as create
+{{Form::hidden('_method','PUT')}}
+
+now let's add a button in show we add ..href='/routeasdefined/{{id}}/edit...
+and remember to complete the edit function in controller because our href will pass through it .. to final views .. we add return view.. sending with parameter the model
+now the form in edit will action on update(similar to create without new) and redirect to main page with message success updated
+and same approach as delete key but it's form that point to destroy will be in show as one button
+
+
+---------------------------------------------------------------------------
+part 9:
+enabling authentication
+php artisan make:auth
+it will create a navigation bar with login and register routes use those in your navigation bar
+now if we want to alter user table after its creation we need a new migration to contain the query
+php artisan make:migration <itsname>
+now go to file and see up and down in up add
+	Schema::table('tablename', function($table){
+            $table->integer('newparmeter');
+        });
+in down it needed to reverse :
+Schema::table('tablename', function($table){
+            $table->dropColumn('newparmeter');
+        });
+
+
+---------------------------------------------------------------------------
+General note:
+
+Add column to user model:
+--------------------------
+when editing the table user: go to migrations files -> create_users_table in up() function method
+ (it will run when running the terminal command php artisan migrate)
+and the down method will run if it was the last migration done and after the command php artisan migrate:rollback
+check migration table for steps it work in LIFO mode
+1-so to add a new parameter to user add in up the coloumn table you need,
+2- go to \app\User.php and add the name of column you want to add
+3- later in registration form an input must be the same name and have a value
+4- for the controller method receiving post check 'app\Http\Controllers\Auth\RegisterController.php' to proper register
+    and navigate to each function of it!.
+
+
+Track code and debug:
+--------------------
+at any time to test that you have the right date you can show the variable at
+page, in general controller method return at result at last an html file
+it can return in many way:
+		- view(folder.file_name) // return this file name it can also
+					// send to it special parameter using
+					// ->with('data',$atmyhanddata)
+					// so i access in file $data normally
+		- redirect to another url that it handled another time
+			by another method ... (recursively way)
+		- to show data just at any method controller at location
+			type return $atmyhanddata
+				or use if the above class does not have __tostring defined
+					return var_dump($atmyhanddata);
+			* other wise on browser right click on inspect and expand code
+					to check that output is as you desired
+
+Make site as internal site on lan:
+----------------------------------
+use this simple command: (replace by your ip adress)
+$ php artisan serve --host=192.168.0.111 --port=5000
+
+-----------
+if some class does not exsit and user they should be declared at
+first with use kaza;
+search google for the case....
+------------
+
+Add pchart library to laravel:
+------------------------------
+i installed the 3rd party library pChart but it after hours of not working i noticed that
+after downgrade my php version to 5 it's work ,, so in installed a fork of the library
+compatible with php 7 form https://github.com/bozhinov/pChart2.0-for-PHP7
+see pChart links in references
+check links note search pchart... official site didn't work as installtion for me i used it
+for documentation and install the pdf file

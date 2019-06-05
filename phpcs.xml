@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<ruleset name="Base Station">
+    <description>The PEAR coding standard.</description>
+    <rule ref="PEAR"/>
+    <file>app/</file>
+    <exclude-pattern>vendor</exclude-pattern>
+    <exclude-pattern>resources</exclude-pattern>
+    <exclude-pattern>database/</exclude-pattern>
+    <exclude-pattern>storage/</exclude-pattern>
+    <exclude-pattern>node_modules/</exclude-pattern>
+    <exclude-pattern>app/Http/Middleware/</exclude-pattern>
+    <exclude-pattern>/app/Http/Controllers/Auth</exclude-pattern>
+    <exclude-pattern>app/Exceptions/</exclude-pattern>
+    <exclude-pattern>app/Console</exclude-pattern>
+
+
+    <rule ref="PEAR">
+        <exclude name="PEAR.Commenting.FileComment" />
+        <exclude name="PEAR.Commenting.ClassComment" />
+        <exclude name="PEAR.Commenting.FunctionComment" />
+    </rule>
+</ruleset>
