@@ -13,12 +13,13 @@ class User extends Authenticatable
     /**
      * The attributes that are mass assignable.
      * edit this array if you added attribute to your
-     * user to register and must be fillable in your registration form (using input with same name and yours values)
+     * user to register and must be fillable in your registration
+     *  form (using input with same name and yours values)
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','type','parentid','team_id'
+        'name', 'email', 'password', 'type', 'parentid', 'team_id'
     ];
 
     /**
@@ -36,7 +37,7 @@ class User extends Authenticatable
     {
         return $this->belongsTo('App\Team');
     }
-    
+
     public function teamscoached()
     {
         // Team have user_id and it mean the coach id
@@ -58,7 +59,8 @@ class User extends Authenticatable
     public function sets_answered() // special use for members team like
     {
         return $this->belongsToMany('App\Set')->withTimestamps()->withPivot('status');
-        // return $this->belongsToMany('App\User')->as('replacepivot')->withTimestamps()->withPivot('answer');
+        // return $this->belongsToMany('App\User')
+        //     ->as('replacepivot')->withTimestamps()->withPivot('answer');
     }
 
     // example to retrieve intermediate column which in here answer
@@ -70,7 +72,13 @@ class User extends Authenticatable
 
     public function questions_asked()
     {
-        // return $this->belongsToMany('App\Question','question_user', 'user_id', 'question_id')->withTimestamps()->withPivot('answer');
+        // return $this->belongsToMany(
+        //     'App\Question',
+        //     'question_user',
+        //     'user_id',
+        //     'question_id'
+        // )
+        //     ->withTimestamps()->withPivot('answer');
         // because i respected default naming i can also use:
         return $this->belongsToMany('App\Question')->withTimestamps()->withPivot('answer');
     }
@@ -78,13 +86,13 @@ class User extends Authenticatable
     // for filtering check url note about filter
     public function question_set_asked($set_id)
     {
-        $questions=$this->questions_asked;
-        if (count($questions)==0) {
+        $questions = $this->questions_asked;
+        if (count($questions) == 0) {
             return;
         }
         foreach ($questions as $quest) {
-            if ($quest->set_id==$set_id) {
-                $questions_filtered[]=$quest;
+            if ($quest->set_id == $set_id) {
+                $questions_filtered[] = $quest;
             }
         }
         // $questions_filtered = array_filter($questions, function(Question $quest){

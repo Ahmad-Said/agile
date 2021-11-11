@@ -12,11 +12,16 @@
     <exclude-pattern>/app/Http/Controllers/Auth</exclude-pattern>
     <exclude-pattern>app/Exceptions/</exclude-pattern>
     <exclude-pattern>app/Console</exclude-pattern>
+    <exclude-pattern>kernel</exclude-pattern>
 
 
     <rule ref="PEAR">
         <exclude name="PEAR.Commenting.FileComment" />
         <exclude name="PEAR.Commenting.ClassComment" />
         <exclude name="PEAR.Commenting.FunctionComment" />
+        <exclude name="Generic.Commenting.DocComment"/>
+        <exclude name="PEAR.ControlStructures.MultiLineCondition.CloseBracketNewLine" />
+        <exclude name="PEAR.ControlStructures.MultiLineCondition.SpacingAfterOpenBrace" />
+        <exclude name="PEAR.ControlStructures.MultiLineCondition.StartWithBoolean" />
     </rule>
 </ruleset>

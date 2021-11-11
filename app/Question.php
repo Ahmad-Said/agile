@@ -27,9 +27,10 @@ class Question extends Model
             function ($quest) {
                 // before delete() method call this
                 // back to set all user asked set to pending
-                $set=$quest->set;
+                $set = $quest->set;
                 foreach ($set->users_answered as $user) {
-                    $user->sets_answered()->updateExistingPivot($set->id, ['status' => 'pending']);
+                    $user->sets_answered()
+                        ->updateExistingPivot($set->id, ['status' => 'pending']);
                 }
 
                 $quest->users_asked()->detach();

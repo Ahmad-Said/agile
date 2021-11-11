@@ -11,14 +11,14 @@ class MypChart extends Model
     public static function init()
     {
         // initialize Font path :
-        $fontpath= base_path();
+        $fontpath = base_path();
         // $fontpath=str_replace("\\","/",$fontpath);
-        $fontpath.="/vendor/bozhinov/pchart/pChart/fonts/";
+        $fontpath .= "/vendor/bozhinov/pchart/pChart/fonts/";
         self::setFontPath($fontpath);
     }
     public static function setFontPath($fontpath)
     {
-        self::$FontPath=$fontpath;
+        self::$FontPath = $fontpath;
     }
     public static function getFontPath()
     {

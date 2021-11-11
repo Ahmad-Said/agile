@@ -14,7 +14,8 @@ class PagesController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth')->except('index', 'about', 'references', 'showfile');
+        $this->middleware('auth')
+            ->except('index', 'about', 'references', 'showfile');
     }
 
     public function index()
@@ -32,7 +33,7 @@ class PagesController extends Controller
     }
     public function prof()
     {
-        $a=Auth::user();
+        $a = Auth::user();
         return view('pages.profi')->with('a', $a);
     }
 
@@ -44,17 +45,18 @@ class PagesController extends Controller
     public function update(Request $request)
     {
         // return $request->all();
-        $user=auth()->User();
-        $user->name=$request->input("name");
-        $user->email=$request->input("email");
+        $user = auth()->User();
+        $user->name = $request->input("name");
+        $user->email = $request->input("email");
         $user->save();
 
-        return  redirect()->back()->withInput()->with('success', 'Profile Updated Successfully!');
+        return  redirect()->back()->withInput()
+            ->with('success', 'Profile Updated Successfully!');
     }
 
     public function showfile($file)
     {
-        $filename = 'files\\'.$file;
+        $filename = 'files\\' . $file;
         $path = storage_path($filename);
         return response()->file($path);
     }

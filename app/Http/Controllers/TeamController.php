@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Team;
 use App\User;
+use Illuminate\Http\Request;
+
 class TeamController extends Controller
 {
 
@@ -31,7 +32,7 @@ class TeamController extends Controller
     {
         //
         // Check for correct user
-        if(auth()->user()->type !=='coach') {
+        if (auth()->user()->type !== 'coach') {
             return redirect('/home')->with('error', 'Unauthorized Page');
         }
         return view('team.create');
@@ -47,28 +48,31 @@ class TeamController extends Controller
     {
         //
         $this->validate(
-            $request, [
-            'members' => ["required","array","min:2"],
-            'name' => 'required',
-            'location'=>'required',
+            $request,
+            [
+                'members' => ["required", "array", "min:2"],
+                'name' => 'required',
+                'location' => 'required',
             ]
         );
-        if(User::find($request->input('members')[0])->type!=='scrum-master') {
-             return redirect()->back()->withInput()->with('error', 'Scrum Master Not Precised! Register a new one.');
+        if (User::find($request->input('members')[0])->type !== 'scrum-master') {
+            return redirect()->back()->withInput()
+                ->with('error', 'Scrum Master Not Precised! Register a new one.');
         }
         //    'cover_image' => 'image|nullable|max:1999'
         // Handle File Upload
         // if($request->hasFile('cover_image')){
-        //     // Get filename with the extension
-        //     $filenameWithExt = $request->file('cover_image')->getClientOriginalName();
-        //     // Get just filename
-        //     $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-        //     // Get just ext
-        //     $extension = $request->file('cover_image')->getClientOriginalExtension();
-        //     // Filename to store
-        //     $fileNameToStore= $filename.'_'.time().'.'.$extension;
-        //     // Upload Image
-        //     $path = $request->file('cover_image')->storeAs('public/cover_images', $fileNameToStore);
+        // Get filename with the extension
+        // $filenameWithExt = $request->file('cover_image')->getClientOriginalName();
+        // Get just filename
+        // $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+        // Get just ext
+        // $extension = $request->file('cover_image')->getClientOriginalExtension();
+        // Filename to store
+        // $fileNameToStore= $filename.'_'.time().'.'.$extension;
+        // Upload Image
+        // $path = $request->file('cover_image')
+        //     ->storeAs('public/cover_images', $fileNameToStore);
         // } else {
         //     $fileNameToStore = 'noimage.jpg';
         // }
@@ -80,15 +84,14 @@ class TeamController extends Controller
         $team->user_id = auth()->user()->id;
         // $post->cover_image = $fileNameToStore;
         $team->save();
-        foreach($request->input('members') as $userid)
-        {
+        foreach ($request->input('members') as $userid) {
             $user = User::find($userid);
 
             $user->team_id = $team->id;
 
             $user->save();
-        }    
-        return redirect('/home')->with('success', 'Team Created Succefully!');
+        }
+        return redirect('/home')->with('success', 'Team Created Successfully!');
         // return $request->input('members');
     }
 
@@ -101,7 +104,7 @@ class TeamController extends Controller
     public function show($id)
     {
         //
-        $team=Team::find($id);
+        $team = Team::find($id);
         return views('team.show')->with('team', $team);
     }
 

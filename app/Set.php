@@ -18,7 +18,8 @@ class Set extends Model
 
     public function users_answered()
     {
-        return $this->belongsToMany('App\User')->withTimestamps()->withPivot('status');
+        return $this->belongsToMany('App\User')
+            ->withTimestamps()->withPivot('status');
         // return $this->belongsToMany('App\User')->as('replacepivot')->withTimestamps()->withPivot('answer');
     }
 
@@ -39,7 +40,8 @@ class Set extends Model
             function ($set) {
                 // before delete() method call this
                 foreach ($set->myquestions as $quest) {
-                    $quest->delete(); // in there we will remove all links from user_id too
+                    // in there we will remove all links from user_id too
+                    $quest->delete();
                 }
                 // detach all roles from the user
                 $set->users_answered()->detach();
